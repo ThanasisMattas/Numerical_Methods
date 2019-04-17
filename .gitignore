@@ -1,0 +1,16 @@
+
+*.exe
+*.o
+*.so
+*.dll
+
+*.zip
+*.rar
+*.tar
+*.7z
+*.jar
+*.iso
+*.gz
+*.dmg
+
+/.vscode
