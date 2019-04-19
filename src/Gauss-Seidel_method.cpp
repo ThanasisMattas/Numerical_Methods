@@ -17,19 +17,20 @@
 /* Numerical algorithms | Gauss-Seidel Method
  *
  * This program solves any 3x3 linear system of equations (you just need to
- * edit the formulas at the regression block), using the Gauss-Seidel Method.
+ * edit the formulas at the regression block and the initial values), using
+ * the Gauss-Seidel Method.
  * 
  * Current example:
  * 
- * 					20x +   y -  2z = 17
- * 					 3x + 20y +   z = -18
- * 					 2x -  3y + 20z = 25 
+ *                   20x +   y -  2z =  17
+ *                    3x + 20y +   z = -18
+ *                    2x -  3y + 20z =  25 
  * 
- * 							  or
+ *                             or
  * 
- * 			       20   1  -2     x      17
- * 				    3  20   1  *  y  =  -18
- * 				    2  -3  20     z      25
+ *                 20   1  -2     x      17
+ *                  3  20   1  *  y  =  -18
+ *                  2  -3  20     z      25
  */
 
 
@@ -44,43 +45,42 @@
 int main()
 {
 	
-	double xi, yi, zi;
-	double x_prev = 0, y_prev = 0, z_prev = 0;
-	unsigned counter = 0, presicion[] = {3,9,12};
-	
-	std::string title = "Gauss-Seidel method";
-	std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
-	std::cout << "x0 = " << x0 << ",\ty0 = " << y0 << ",\tz0 = " << z0 <<std::endl << std::endl;
-	
-	// loop through presicion values | In order to compare the iterations required
-	for(size_t i=0; i<3; ++i)
-	{
-		
-		xi = x0, yi = y0, zi = z0;
-		counter = 0;
-		
-		// convergance occurs when all parameters converge
-		while( xi != x_prev || yi != y_prev || zi != z_prev )
-		{
+    double xi, yi, zi;
+    double x_prev = 0, y_prev = 0, z_prev = 0;
+    unsigned counter = 0, presicion[] = {3,9,12};
+        
+    std::string title = "Gauss-Seidel method";
+    std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
+    std::cout << "x0 = " << x0 << ",\ty0 = " << y0 << ",\tz0 = " << z0 << std::endl << std::endl;
+        
+    // loop through presicion values | In order to compare the iterations required
+    for (size_t i=0; i<3; ++i) {
+            
+        xi = x0, yi = y0, zi = z0;
+        counter = 0;
+                
+        // convergance occurs when all parameters converge
+        while ( xi != x_prev || yi != y_prev || zi != z_prev ) {
 
-			x_prev = xi;
-			y_prev = yi;
-			z_prev = zi;
+            x_prev = xi;
+            y_prev = yi;
+            z_prev = zi;
 
-			xi = round( pow(10,presicion[i]) * ( (17 - yi + 2*zi)/20 )) / pow(10,presicion[i]);		// presicion[i] signigicant decimal digits
-			yi = round( pow(10,presicion[i]) * ( (-17 - 3*xi - zi)/20 )) / pow(10,presicion[i]);
-			zi = round( pow(10,presicion[i]) * ( (25 - 2*xi + 3*yi)/20 )) / pow(10,presicion[i]);
-			
-			++counter;
+            // presicion[i] signigicant decimal digits
+            xi = round( pow(10,presicion[i]) * ( (17 - yi + 2*zi)/20 )) / pow(10,presicion[i]);
+            yi = round( pow(10,presicion[i]) * ( (-17 - 3*xi - zi)/20 )) / pow(10,presicion[i]);
+            zi = round( pow(10,presicion[i]) * ( (25 - 2*xi + 3*yi)/20 )) / pow(10,presicion[i]);
+                    
+            ++counter;
 
-			std::cout << "Iter #" << counter << ": "
-			<< "x" << counter << " = " << std::fixed << std::setprecision(presicion[i]) << xi << "  "
-			<< "y" << counter << " = " << yi << "  "
-			<< "z" << counter << " = " << zi << std::endl;
+            std::cout << "Iter #" << counter << ": "
+            << "x" << counter << " = " << std::fixed << std::setprecision(presicion[i]) << xi << "  "
+            << "y" << counter << " = " << yi << "  "
+            << "z" << counter << " = " << zi << std::endl;
+        }
+
+        std::cout << "-------------------\nSolution with " << std::setprecision(0) << presicion[i]
+        << " significant decimal digits: (x,y,z) = " << std::setprecision(presicion[i]) << "(" << xi
+        << "," << yi << "," << zi << ")" << "  |  " << "Iterations: " << counter << std::endl << std::endl;
     }
-
-		std::cout << "-------------------\nSolution with " << std::setprecision(0) << presicion[i] <<" significant decimal digits: (x,y,z) = "
-		<< std::setprecision(presicion[i]) << "(" << xi << "," << yi << "," << zi << ")" << "  |  " << "Iterations: " << counter
-		<< std::endl << std::endl;
-	}
 }

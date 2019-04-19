@@ -35,7 +35,6 @@ typedef std::vector< std::vector<int> > vector_int_2D;
 // A function that returns a given power of a given square matrix (2D std::vector)
 vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
 {
-
     vector_int_2D newSqVect(inputSqVect);         // this will be eventually returned
     vector_int_2D tempSqVect(N, vector_int(N));   // this will hold the step-wise solution
 
@@ -50,7 +49,7 @@ vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
         for (size_t i = 0; i < N; ++i) {
             for (size_t j = 0; j < N; ++j) {  
                 for (size_t l = 0; l < N; ++l) {
-                    tempSqVect[i][j] += newSqVect[i][l] * inputSqVect[l][j];
+                tempSqVect[i][j] += newSqVect[i][l] * inputSqVect[l][j];
                 }
             }
         }
@@ -69,16 +68,16 @@ int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitary_vec
     vector_int x_n(N);
 
     for (size_t i = 0; i < N; ++i) {
-            for (size_t j = 0; j < N; ++j) {
-                x_n[i] += poweredSqVect_input[i][j] * arbitary_vector[j];
-            }
+        for (size_t j = 0; j < N; ++j) {
+            x_n[i] += poweredSqVect_input[i][j] * arbitary_vector[j];
         }
+    }
 
     /* calculate the magnitude of x_n
     int x_n_magn;
 
     for (auto& m : x_n)
-    x_n_magn += pow(m,2);
+        x_n_magn += pow(m,2);
 
     x_n_magn = sqrt(x_n_magn)
     */
@@ -90,18 +89,18 @@ int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitary_vec
             greatest_el = *it;
         }
     }
-
+    
     return greatest_el;
 }
 
 int main()
 {
-	std::string title = "Power Method";
-	std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
+    std::string title = "Power Method";
+    std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
 
     // A random 6x6 matrix. You can work with square matrices of other dimension,
     // only by editing the '#define N 6' declaration
-	vector_int_2D mySqVect {{6, 0, 2, 3, 2, 4},
+    vector_int_2D mySqVect {{6, 0, 2, 3, 2, 4},
                             {4, 1, 8, 0, 3, 5},
                             {7, 3, 3, 2, 9, 0},
                             {4, 0, 0, 2, 6, 1},
@@ -126,14 +125,14 @@ int main()
     vector_int_2D mySqVect_test {{2, 3, 2},
                                  {4, 3, 5},
                                  {3, 2, 9}};
-    
+
     vector_int_2D poweredSqVect_test = sqVectPow(mySqVect_test, 10);
-    
+
     for (auto& i : poweredSqVect_test) {
         for (auto& j : i) {
             std::cout << j << " ";
         }
-        std::cout << std::endl;
+        std::cout << std::endl;pr
     }
     double test_eigenvalue = round( pow(10,3) * ( (double)giveGreatestEl(sqVectPow(mySqVect_test, 10), x) / giveGreatestEl(sqVectPow(mySqVect_test, 9), x) )) / pow(10,3);
     std::cout << std::endl << test_eigenvalue;
@@ -142,11 +141,13 @@ int main()
 
     // main regression block
     for (size_t pr = 0; pr < 1; ++pr) {       // loop through precision values
-    
+
         iter = 0;
         l_prev = 0;
 
-        while ( ++iter && l != l_prev ) {
+        while (l != l_prev) {
+
+            ++iter;
 
             l_prev = l;
 
@@ -154,7 +155,7 @@ int main()
             std::cout << std::fixed << std::setprecision(0) << "Iter #" << iter << ": " << std::setprecision(precision[pr]) << l << std::endl;
         }
 
-	    std::cout << "-------------------\nGreatest Eigenvalue with " << std::setprecision(0) << precision[pr] <<" significant decimal digits: "
-	    << std::setprecision(precision[pr]) << l << "  |  " << "Iterations: " << iter-1 << std::endl << std::endl;
+        std::cout << "-------------------\nGreatest Eigenvalue with " << std::setprecision(0) << precision[pr] << " significant decimal digits: "
+        << std::setprecision(precision[pr]) << l << "  |  " << "Iterations: " << iter-1 << std::endl << std::endl;
     }
 }

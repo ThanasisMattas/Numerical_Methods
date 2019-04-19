@@ -26,46 +26,42 @@
 #define x0 1.5
 #define y0 0.8
 
-int main(){
-	
-	double xi, yi, temp = 0;
-	int counter_x = 0, counter_y = 0, presicion[] = {3,6,12};
-	
-	std::string title = "Newton method | Simultaneous Equations";
-	std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
-	std::cout << "x_0 = " << x0 << "\ty_0 = " << y0 << std::endl << std::endl;
-	
-		
-	for(size_t i=0; i<3; ++i){
-		
-		xi = x0;
-		counter_x = 0;
-		temp = 0;
-		
-		while(temp != xi){
-			temp = xi;
-			if( xi == round( pow(10,presicion[i]) * ( xi - (4*pow(xi,2)-11)/(8*xi) )) / pow(10,presicion[i]) )
-			break;
-			xi = round( pow(10,presicion[i]) * ( xi - (4*pow(xi,2)-11)/(8*xi) )) / pow(10,presicion[i]);	// presicion[i] signigicant floating digits
-			++counter_x;
-			std::cout << "x_" << counter_x << " = " << std::fixed << std::setprecision(presicion[i]) << xi << std::endl;
-		}
-		
-		yi = y0;
-		counter_y = 0;
-		temp = 0;		
-		
-		while(temp != yi){
-			temp = yi;
-			if( yi == round( pow(10,presicion[i]) * ( yi - (4*pow(yi,2)-1)/(8*yi) )) / pow(10,presicion[i]) )
-			break;
-			yi = round( pow(10,presicion[i]) * ( yi - (4*pow(yi,2)-1)/(8*yi) )) / pow(10,presicion[i]);	// presicion[i] signigicant floating digits
-			++counter_y;
-			std::cout << std::setprecision(presicion[i]) << "y_" << counter_y << " = " << yi << std::endl;
-		}		
-		
-		std::cout << "Solution with " << std::setprecision(0) << presicion[i] <<" significant floating digits: (x,y) = "
-		<< std::setprecision(presicion[i]) << "(" << xi << "," << yi << ")" << "\t" << "Iterations: x: " << counter_x
-		<< ", y: " << counter_y << std::endl << std::endl;
-	}
+int main()
+{
+    double xi, yi, temp = 0;
+    int counter_x = 0, counter_y = 0, presicion[] = {3,6,12};
+
+    std::string title = "Newton method | Simultaneous Equations";
+    std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
+    std::cout << "x_0 = " << x0 << "\ty_0 = " << y0 << std::endl << std::endl;
+
+
+    for (size_t i=0; i<3; ++i) {
+
+        xi = x0;
+        counter_x = 0;
+        temp = 0;
+
+        while (temp != xi) {
+            temp = xi;
+            xi = round( pow(10,presicion[i]) * ( xi - (4*pow(xi,2)-11)/(8*xi) )) / pow(10,presicion[i]);	// presicion[i] signigicant decimal digits
+            ++counter_x;
+            std::cout << "x_" << counter_x << " = " << std::fixed << std::setprecision(presicion[i]) << xi << std::endl;
+        }
+
+        yi = y0;
+        counter_y = 0;
+        temp = 0;		
+
+        while (temp != yi) {
+            temp = yi;
+            yi = round( pow(10,presicion[i]) * ( yi - (4*pow(yi,2)-1)/(8*yi) )) / pow(10,presicion[i]);	// presicion[i] signigicant decimal digits
+            ++counter_y;
+            std::cout << std::setprecision(presicion[i]) << "y_" << counter_y << " = " << yi << std::endl;
+        }		
+
+        std::cout << "Solution with " << std::setprecision(0) << presicion[i] <<" significant decimal digits: (x,y) = "
+        << std::setprecision(presicion[i]) << "(" << xi << "," << yi << ")" << "\t" << "Iterations: x: " << counter_x
+        << ", y: " << counter_y << std::endl << std::endl;
+    }
 }
