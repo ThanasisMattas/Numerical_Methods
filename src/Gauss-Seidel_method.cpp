@@ -38,25 +38,26 @@
 #include <cmath>
 #include <iomanip>
 
-#define x0 2
-#define y0 0
-#define z0 2
+const double x_0 = 2.0;
+const double y_0 = 0.0;
+const double z_0 = 2.0;
 
 int main()
 {
 	
     double xi, yi, zi;
     double x_prev = 0, y_prev = 0, z_prev = 0;
-    unsigned counter = 0, presicion[] = {3,9,12};
+    unsigned counter = 0, precision[] = {3, 9, 12};
         
     std::string title = "Gauss-Seidel method";
     std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
-    std::cout << "x0 = " << x0 << ",\ty0 = " << y0 << ",\tz0 = " << z0 << std::endl << std::endl;
+    std::cout << "x_0 = " << x_0 << ",\ty_0 = " << y_0 << ",\tz_0 = " << z_0
+        << std::endl << std::endl;
         
-    // loop through presicion values | In order to compare the iterations required
-    for (size_t i=0; i<3; ++i) {
+    // loop through precision values, in order to compare the iterations required
+    for (size_t i = 0; i < 3; ++i) {
             
-        xi = x0, yi = y0, zi = z0;
+        xi = x_0, yi = y_0, zi = z_0;
         counter = 0;
                 
         // convergance occurs when all parameters converge
@@ -66,21 +67,22 @@ int main()
             y_prev = yi;
             z_prev = zi;
 
-            // presicion[i] signigicant decimal digits
-            xi = round( pow(10,presicion[i]) * ( (17 - yi + 2*zi)/20 )) / pow(10,presicion[i]);
-            yi = round( pow(10,presicion[i]) * ( (-17 - 3*xi - zi)/20 )) / pow(10,presicion[i]);
-            zi = round( pow(10,presicion[i]) * ( (25 - 2*xi + 3*yi)/20 )) / pow(10,presicion[i]);
+            // precision[i] decimal places
+            xi = round( pow(10, precision[i]) * ((17 - yi + 2*zi)/20) ) / pow(10, precision[i]);
+            yi = round( pow(10, precision[i]) * ((-17 - 3*xi - zi)/20) ) / pow(10, precision[i]);
+            zi = round( pow(10, precision[i]) * ((25 - 2*xi + 3*yi)/20) ) / pow(10, precision[i]);
                     
             ++counter;
 
-            std::cout << "Iter #" << counter << ": "
-            << "x" << counter << " = " << std::fixed << std::setprecision(presicion[i]) << xi << "  "
-            << "y" << counter << " = " << yi << "  "
-            << "z" << counter << " = " << zi << std::endl;
+            std::cout << "Iter #" << counter << ": " << std::fixed << std::setprecision(precision[i])
+                << "x_" << counter << " = " << xi << "  "
+                << "y_" << counter << " = " << yi << "  "
+                << "z_" << counter << " = " << zi << std::endl;
         }
 
-        std::cout << "-------------------\nSolution with " << std::setprecision(0) << presicion[i]
-        << " significant decimal digits: (x,y,z) = " << std::setprecision(presicion[i]) << "(" << xi
-        << "," << yi << "," << zi << ")" << "  |  " << "Iterations: " << counter << std::endl << std::endl;
+        std::cout << "-------------------\nSolution with " << std::setprecision(0) << precision[i]
+            << " decimal places: (x,y,z) = " << std::setprecision(precision[i]) << "(" << xi
+            << "," << yi << "," << zi << ")" << "  |  " << "Iterations: " << counter << std::endl
+            << std::endl;
     }
 }

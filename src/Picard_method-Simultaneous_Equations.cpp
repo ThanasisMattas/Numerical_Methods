@@ -20,7 +20,7 @@
  *                      y_(n+1) = g(x_n, y_n)
  * 
  * Using the same equations as with the Newton method example, you can notice that the
- * solutions estimated with the Newton method are out of limits defined by  convergence 
+ * solutions estimated with the Newton method are out of limits defined by convergence 
  * criteria of the Picard method. So, this program does not converge. For more details
  * read the Numerical_Methods_report.pdf .
  * 
@@ -30,47 +30,60 @@
 #include <cmath>
 #include <iomanip>
 
-#define x0 2
-#define y0 1.4
+const double x_0 = 2.0;
+const double y_0 = 1.4;
 
 int main()
 {
-    float xi, yi, temp = 0;
-    int counter_x = 0, counter_y = 0, presicion[] = {3,6,12};
+    double xi;
+    double yi;
+    double x_prev = 0;
+    double y_prev = 0;
+    int counter_x = 0;
+    int counter_y = 0;
+    int precision[] = {3,6,12};
 
     std::string title = "Picard method | Simultaneous equations";
     std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
-    std::cout << "x_0 = " << x0 << "\ty_0 = " << y0 << std::endl << std::endl;
+    std::cout << "x_0 = " << x_0 << "\ty_0 = " << y_0 << std::endl << std::endl;
 
-    for (size_t i=0; i<3; ++i) {
+    // Execute for various precision values
+    for (size_t i = 0; i < 3; ++i) {
 
-        xi = y0;
+        xi = y_0;
         counter_x = 0;
-        temp = 0;
+        x_prev = 0;
 
-        while (temp != xi) {
-            temp = xi;
-            // presicion[i] signigicant decimal digits
-            xi = roundf( pow(10,presicion[i]) * ( sqrt(3-pow(xi,2)) ) / pow(10,presicion[i]));
+        // Regression block for variable x
+        while (x_prev != xi) {
+            x_prev = xi;
+            // precision[i] decimal places
+            xi = round( pow(10, precision[i]) * (sqrt(3 - pow(xi, 2))) )
+                / pow(10, precision[i]);
             ++counter_x;
-            std::cout << std::fixed << std::setprecision(presicion[i]) << "x_" << counter_x << " = " << xi << std::endl;
+            std::cout << std::fixed << std::setprecision(precision[i]) << "x_"
+                << counter_x << " = " << xi << std::endl;
         }
 
-        yi = x0;
+        yi = x_0;
         counter_y = 0;
-        temp = 0;		
+        y_prev = 0;		
 
-        while (temp != yi) {
-            temp = yi;
-            // presicion[i] signigicant decimal digits
-            yi = roundf( pow(10,presicion[i]) * ( sqrt((pow(yi,2) -2)/3)) / pow(10,presicion[i]));
+        // Regression block for variable y
+        while (counter_y < 10) {      //y_prev != yi
+            y_prev = yi;
+            // precision[i] decimal places
+            yi = round( pow(10, precision[i]) * (sqrt((pow(yi, 2) - 2) / 3)) )
+                / pow(10, precision[i]);
             ++counter_y;
-            std::cout << std::setprecision(presicion[i]) << "y_" << counter_y << " = " << yi << std::endl;
+            std::cout << std::setprecision(precision[i]) << "y_" << counter_y
+                << " = " << yi << std::endl;
         }
 
-        std::cout << "Solution with " << std::setprecision(0) << presicion[i] <<" significant decimal digits: (x,y) = "
-        << std::fixed << std::setprecision(presicion[i]) << "(" << xi << "," << yi << ")" << "\t" << "Iterations: x: "
-        << counter_x << ", y: " << counter_y << std::endl;
+        std::cout << "Solution with " << std::setprecision(0) << precision[i]
+            << " decimal places: (x,y) = " << std::fixed << std::setprecision(precision[i])
+            << "(" << xi << "," << yi << ")" << "\t" << "Iterations: x: " << counter_x
+            << ", y: " << counter_y << std::endl << std::endl;
 
     }
 }

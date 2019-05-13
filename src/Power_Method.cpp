@@ -16,8 +16,9 @@
 
 /* Numerical algorithms | Power Method
  *
- * This program finds the greatest eigenvalue of any square matrix (only by editing
- * "#define N " and mySqVect [line 104] -- current example: 6x6), using the Power Method.
+ * This program uses the Power Method to find the greatest eigenvalue of
+ * any square matrix (only by editing "const int N" and mySqVect [line 104]
+ * -- current example: 6x6).
  */
 
 
@@ -27,7 +28,7 @@
 #include <iomanip>
 
 // N: dimension of the square matrix
-#define N 6
+const int N = 6;
 
 typedef std::vector<int> vector_int;
 typedef std::vector< std::vector<int> > vector_int_2D;
@@ -54,7 +55,8 @@ vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
             }
         }
 
-        // newSqVect = tempSqVect   |   and tempSqVect = newSqVect, but tempSqVect will be set to zero
+        // newSqVect = tempSqVect   |   and tempSqVect = newSqVect,
+        // but tempSqVect will be set to zero
         newSqVect.swap(tempSqVect);
     }
 
@@ -62,7 +64,8 @@ vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
 }
 
 
-// A function that returns the greatest element of vector x^(n), where n is the power of the square matrix
+// A function that returns the greatest element of vector x^(n),
+// where n is the power of the square matrix
 int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitary_vector)
 {
     vector_int x_n(N);
@@ -73,7 +76,7 @@ int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitary_vec
         }
     }
 
-    /* calculate the magnitude of x_n
+    /*// calculate the magnitude of x_n
     int x_n_magn;
 
     for (auto& m : x_n)
@@ -99,7 +102,7 @@ int main()
     std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
 
     // A random 6x6 matrix. You can work with square matrices of other dimension,
-    // only by editing the '#define N 6' declaration
+    // only by editing 'const int N' [line 31]
     vector_int_2D mySqVect {{6, 0, 2, 3, 2, 4},
                             {4, 1, 8, 0, 3, 5},
                             {7, 3, 3, 2, 9, 0},
@@ -118,8 +121,8 @@ int main()
 
     int precision[] = {3, 12, 6};
 
-    /* print-test block
-    // You need to change to "#define N 3" and comment the main regression block
+    /*// print-test block
+    // You need to change to "const int N = 3" and comment the main regression block
     std::cout << std::endl << "Print-test block" << std::endl;
 
     vector_int_2D mySqVect_test {{2, 3, 2},
@@ -134,10 +137,13 @@ int main()
         }
         std::cout << std::endl;pr
     }
-    double test_eigenvalue = round( pow(10,3) * ( (double)giveGreatestEl(sqVectPow(mySqVect_test, 10), x) / giveGreatestEl(sqVectPow(mySqVect_test, 9), x) )) / pow(10,3);
+    double test_eigenvalue = round( pow(10, 3)
+        * ((double)giveGreatestEl(sqVectPow(mySqVect_test, 10), x)
+        / giveGreatestEl(sqVectPow(mySqVect_test, 9), x)) )
+        / pow(10, 3);
+
     std::cout << std::endl << test_eigenvalue;
     */
-
 
     // main regression block
     for (size_t pr = 0; pr < 1; ++pr) {       // loop through precision values
@@ -151,11 +157,18 @@ int main()
 
             l_prev = l;
 
-            l = round( pow(10,precision[pr]) * ( (double)giveGreatestEl(sqVectPow(mySqVect, iter+1), x) / giveGreatestEl(sqVectPow(mySqVect, iter), x) )) / pow(10,precision[pr]);
-            std::cout << std::fixed << std::setprecision(0) << "Iter #" << iter << ": " << std::setprecision(precision[pr]) << l << std::endl;
+            l = round( pow(10, precision[pr])
+                * ( (double)giveGreatestEl(sqVectPow(mySqVect, iter+1), x)
+                / giveGreatestEl(sqVectPow(mySqVect, iter), x) ))
+                / pow(10, precision[pr]);
+
+            std::cout << std::fixed << std::setprecision(0) << "Iter #" << iter
+                << ": " << std::setprecision(precision[pr]) << l << std::endl;
         }
 
-        std::cout << "-------------------\nGreatest Eigenvalue with " << std::setprecision(0) << precision[pr] << " significant decimal digits: "
-        << std::setprecision(precision[pr]) << l << "  |  " << "Iterations: " << iter-1 << std::endl << std::endl;
+        std::cout << "-------------------\nGreatest Eigenvalue with "
+            << std::setprecision(0) << precision[pr] << " significant decimal digits: "
+            << std::setprecision(precision[pr]) << l << "  |  " << "Iterations: "
+            << iter-1 << std::endl << std::endl;
     }
 }

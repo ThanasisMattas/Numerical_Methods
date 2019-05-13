@@ -22,64 +22,79 @@
 #include <cmath>
 #include <iomanip>
 
-#define x0 0.1
-#define x00 0.203
+const float x0 = 0.1;
+const float x00 = 0.203;
 
 int main()
 {
-    float xi, temp = 0;
-    int counter = 0, presicion[] = {2,3,6,12};
+    float xi, x_prev = 0;
+    int counter = 0, precision[] = {2,3,6,12};
 
     std::string title = "Newton-Raphson method";
     std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
     std::cout << "x_0 = " << x0 << std::endl << std::endl;
 
+    // Execute for various precision values
     for (size_t i=0; i<4; ++i) {
 
         xi = x0;
         counter = 0;
-        temp = 0;
+        x_prev = 0;
 
-        while (temp != xi) {
-            temp = xi;
+        while (x_prev != xi) {
+            x_prev = xi;
 
-            if( !roundf( pow(10,presicion[i]) * ( xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3) )) / pow(10,presicion[i]) )
-            break;
+            // In order not to print zero
+            if( !roundf( pow(10, precision[i]) * (xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3)) )
+                / pow(10, precision[i]) )
+                break;
 
-            // presicion[i] signigicant decimal digits
-            xi = roundf( pow(10,presicion[i]) * ( xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3) )) / pow(10,presicion[i]);
+            // precision[i] decimal places
+            xi = roundf( pow(10, precision[i]) * (xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3)) )
+                / pow(10, precision[i]);
             ++counter;
-            std::cout << std::setprecision(presicion[i]) << "x_" << counter << " = " << xi << std::endl;
+            std::cout << std::setprecision(precision[i])
+                << "x_" << counter << " = " << xi << std::endl;
         }
 
-        std::cout << "Solution with " << std::setprecision(0) << presicion[i] <<" significant decimal digits:"
-        << std::fixed << std::setprecision(presicion[i]) << xi << "\t"<<"Iterations: " << counter << std::endl << std::endl;
+        std::cout << "Solution with " << std::setprecision(0) << precision[i]
+            << " significant decimal digits:" << std::fixed << std::setprecision(precision[i])
+            << xi << "\t"<<"Iterations: " << counter << std::endl << std::endl;
     } 	
 
 
-    // 2.b
+    /* 2.b
+     *
+     * Selecting a starting point that lies after the extremum (min) of the equation,
+     * x00 = 0.203, leads to the other root of the equation, x = 0.3813
+     */
     std::cout << std::string(title.length(), '-') << std::endl;
     std::cout << "x_0 = " << std::setprecision(3) << x00 << std::endl << std::endl;
 
+    // Execute for various precision values
     for (size_t i=0; i<3; ++i) {
 
         xi = x00;
         counter = 0;
-        temp = 0;
+        x_prev = 0;
 
-        while (temp != xi) {
-            temp = xi;
+        while (x_prev != xi) {
+            x_prev = xi;
 
-            if( !roundf( pow(10,presicion[i]) * ( xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3) )) / pow(10,presicion[i]) )
-            break;
+            if( !roundf( pow(10,precision[i]) * (xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3)) )
+                / pow(10,precision[i]) )
+                break;
             
-            // presicion[i] signigicant decimal digits
-            xi = roundf( pow(10,presicion[i]) * ( xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3) )) / pow(10,presicion[i]);
+            // precision[i] decimal places
+            xi = roundf( pow(10,precision[i]) * (xi - (exp(2*xi)-3*xi-1)/(2*exp(2*xi)-3)) )
+                / pow(10,precision[i]);
             ++counter;
-            // std::cout << std::setprecision(presicion[i]) << "x_" << counter << " = " << xi << std::endl;
+            // std::cout << std::setprecision(precision[i])
+            //     << "x_" << counter << " = " << xi << std::endl;
         }
 
-        std::cout << "Solution with " << std::setprecision(0) << presicion[i] << " significant decimal digits:"
-        << std::fixed << std::setprecision(presicion[i]) << xi << "    " << "Iterations: " << counter << std::endl << std::endl;
+        std::cout << "Solution with " << std::setprecision(0) << precision[i]
+            << " decimal places:" << std::fixed << std::setprecision(precision[i])
+            << xi << "    " << "Iterations: " << counter << std::endl << std::endl;
     } 	
 }
