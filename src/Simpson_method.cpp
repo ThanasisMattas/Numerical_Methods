@@ -20,6 +20,7 @@
  * I (limits: [a, b]). The intention is to compare the interval partitions
  * needed, as opposed with the evaluation by the Filon method, using 5 points.
  * 
+ * Simpson method:
  * I = h/2 (f_0 + 4f_1 + 2f_2 + ... + 2f_(n-2) + 4f_(n-1) + f_n)
  * 
  * where h is the discretization step
@@ -83,8 +84,8 @@ double residual(double prev, double current)
 
 int main()
 {
-	std::string title = "Numerical Integration using the Simpson method";
-	std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
+    std::string title = "Numerical Integration using the Simpson method";
+    std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
 
     double I = 0;
     double I_prev = 0;
@@ -103,7 +104,7 @@ int main()
 
     while (round(1000 * I) / 1000 != -1.302) {
 
-		++iter;
+        ++iter;
         I_prev = I;
         I = simpsonMethod(points);
 
@@ -126,7 +127,7 @@ int main()
             << clock() / (double)CLOCKS_PER_SEC
             << std::endl;
 		
-		// points must always be odd, in order to partition the interval into even
+        // points must always be odd, in order to partition the interval into even
         // number of divisions, which is required by the Simpson method.
         points += 2;
     }
