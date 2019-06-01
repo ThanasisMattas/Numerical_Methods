@@ -16,7 +16,7 @@
 
 %{
  Numerical algorithms | 
- Eliptic Partial Differential Equations | Liebmann method
+ Elliptic Partial Differential Equations | Liebmann method
  
  This program uses the Liebmann method, in order to numerically solve elliptic
  PDEs (2nd order partial differential equations with general form of:
