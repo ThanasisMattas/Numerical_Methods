@@ -13,6 +13,7 @@ Here you can find some implementations of various numerical methods, in C++ and 
 * Runge-Kutta method - 2nd & 4th order (ODE evaluation)
 * Runge-Kutta method - Stability study
 * Shooting method with Runge-Kutta method (Boundary conditions problems)
+* Liebmann method (2nd order eliptic PDEs)
 
 For more information you can refer to "Numerical_Methods_report.pdf" at the current directory.
 
