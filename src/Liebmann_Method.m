@@ -25,9 +25,12 @@
  A 2D grid of 400x400 = 160k nodes is used and, at the end of the program, a
  graph with the resulted values of the function u(x,y) is generated upon the grid.
  
- The solution progresses until tolerance reaches 10^-5 (line 89).
+ The solution progresses until tolerance reaches 10^-5 (line 100).
  
- 
+                                                    1
+ Liebmann regression scheme: u_i,j(new) = 1/4 * [{1 0 1} u_i,j(old) - h^2 * f_i,j)]
+                                                    1
+												  
  PDE: Uxx(x,y) + Uyy(x,y) = -10 (x^2 + y^2 + 5)
  Grid length: x: 0-1, y: 0-1
  Grid size: 400x400
