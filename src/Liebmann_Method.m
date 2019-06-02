@@ -25,7 +25,7 @@
  A 2D grid of 400x400 = 160k nodes is used and, at the end of the program, a
  graph with the resulted values of the function u(x,y) is generated upon the grid.
  
- The solution progresses until tolerance reaches 10^-5 (line 100).
+ The solution progresses until tolerance reaches 10^-5 (line 69).
  
                                                     1
  Liebmann regression scheme: u_i,j(new) = 1/4 * [{1 0 1} u_i,j(old) - h^2 * f_i,j)]
@@ -59,10 +59,17 @@ Lx = 1;
 Ly = 1;
 
 % orthonormal grid nodes: NxM = 400x400
+% initialization to zero
 u = zeros(N, M);
 
 % discretization step 
 h = Lx / N;
+
+% tolerance value
+TOL = 10^-5;
+
+% max iterations value
+ITER_MAX = 50000;
 
 % boundary conditions
 % u(0,y) = 0
@@ -97,7 +104,7 @@ while ++iter
   fprintf ('iter: %d   tolerance: %f\n', iter, tolerance);
   u(2:M-1, 2:N-1) = u_new;
   
-  if tolerance < 10^-5 || iter > 50000
+  if tolerance < TOL || iter > ITER_MAX
     break
   end
 end
