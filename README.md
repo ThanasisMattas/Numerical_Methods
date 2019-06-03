@@ -1,6 +1,6 @@
 # Numerical Methods
 
-Here you can find some implementations of various numerical methods, in C++ and matlab/octave.  
+Here you can find some implementations of various numerical methods, in C++ and MATLAB/Octave.  
 Α coherent format is preserved, in order to perform some basic comparison between the methods.
 
 * Picard method [x=g(x)]
@@ -13,12 +13,17 @@ Here you can find some implementations of various numerical methods, in C++ and 
 * Runge-Kutta method - 2nd & 4th order (ODE evaluation)
 * Runge-Kutta method - Stability study
 * Shooting method with Runge-Kutta method (Boundary conditions problems)
-* Liebmann method (2nd order Elliptic PDEs)
+* Liebmann method (2nd order Elliptic PDEs -- Poisson's function) + Relaxed Liebmann scheme
+* Lax-Wendroff method (2nd order Hyperbolic PDEs -- Wave function)
 
-For more information you can refer to "Numerical_Methods_report.pdf" at the current directory.
+
+
+If a method performs calculations on a grid, MATLAB/Octave is used for matrix computations.
 
 More specifically, these are some exercises submited for the elective course "Numerical Analysis"  
 by prof. Nikolaos Stergioulas | Aristotle University of Thessaloniki | Physics department.
+
+For more information you can refer to "Numerical_Methods_report.pdf" at the current directory.
 
 >(C) 2019, Thanasis Mattas  
 >atmattas@physics.auth.gr
