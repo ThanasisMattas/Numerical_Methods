@@ -25,13 +25,12 @@
  approach can be easily verified.
  
  The solutions of the two methods are displayed at the same plot, exhibiting
- that, due to the defferent order of error of each method, a distance is
- being grown between the two graphs while iteretions advance, because
- different erros are summing up.
+ that the graphs are diverging, while iterations advance, due to the step-wise
+ propagation of different errors (different errors are summing up).
  
  Order of error:
  - 2nd order RK (same as Euler-Heum): O(h^3)
- - 4th order RK					          	: O(h^4)
+ - 4th order RK                     : O(h^4)
  
  
  Differential equation: y'' + 4^2 y = 0

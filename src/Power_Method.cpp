@@ -33,7 +33,7 @@ const int N = 6;
 typedef std::vector<int> vector_int;
 typedef std::vector< std::vector<int> > vector_int_2D;
 
-// A function that returns a given power of a given square matrix (2D std::vector)
+// A function that returns a given power of a given square matrix
 vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
 {
     vector_int_2D newSqVect(inputSqVect);         // this will be eventually returned
@@ -66,13 +66,13 @@ vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
 
 // A function that returns the greatest element of vector x^(n),
 // where n is the power of the square matrix
-int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitary_vector)
+int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitrary_vector)
 {
     vector_int x_n(N);
 
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            x_n[i] += poweredSqVect_input[i][j] * arbitary_vector[j];
+            x_n[i] += poweredSqVect_input[i][j] * arbitrary_vector[j];
         }
     }
 
@@ -110,7 +110,7 @@ int main()
                             {1, 6, 3, 4, 5, 6},
                             {2, 8, 4, 3, 9, 0}};
 
-    // arbitary selection of N-element vector x = (1, 1, 1, 1, 1, 1)^T
+    // arbitrary selection of N-element vector x = (1, 1, 1, 1, 1, 1)^T
     vector_int x(N,1);
 
     int iter;

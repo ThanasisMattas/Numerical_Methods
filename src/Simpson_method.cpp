@@ -21,7 +21,7 @@
  * needed, as opposed with the evaluation by the Filon method, using 5 points.
  * 
  * Simpson method:
- * I = h/2 (f_0 + 4f_1 + 2f_2 + ... + 2f_(n-2) + 4f_(n-1) + f_n)
+ * I = h/3 (f_0 + 4f_1 + 2f_2 + ... + 2f_(n-2) + 4f_(n-1) + f_n)
  * 
  * where h is the discretization step
  */
