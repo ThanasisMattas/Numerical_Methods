@@ -26,18 +26,19 @@
 #include <vector>
 #include <cmath>
 #include <iomanip>
+#include <algorithm>
 
-// N: dimension of the square matrix
+//! N: dimension of the square matrix
 const int N = 6;
 
-typedef std::vector<int> vector_int;
-typedef std::vector< std::vector<int> > vector_int_2D;
+typedef std::vector<size_t> vector_int;
+typedef std::vector< std::vector<size_t> > vector_int_2D;
 
-// A function that returns a given power of a given square matrix
+//! A function that returns a given power of a given square matrix
 vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
 {
-    vector_int_2D newSqVect(inputSqVect);         // this will be eventually returned
-    vector_int_2D tempSqVect(N, vector_int(N));   // this will hold the step-wise solution
+    vector_int_2D newSqVect(inputSqVect);       // this will be eventually returned
+    vector_int_2D tempSqVect(N, vector_int(N)); // this will hold the step-wise solution
 
     // unroll power to multiplications
     for (size_t k = 1; k < power; ++k) {
@@ -55,45 +56,33 @@ vector_int_2D sqVectPow(vector_int_2D& inputSqVect, int power)
             }
         }
 
-        // newSqVect = tempSqVect   |   and tempSqVect = newSqVect,
-        // but tempSqVect will be set to zero
+        // newSqVect = tempSqVect
+        // and tempSqVect = newSqVect, but tempSqVect will be set to zero
         newSqVect.swap(tempSqVect);
     }
-
     return newSqVect;
 }
 
-
-// A function that returns the greatest element of vector x^(n),
-// where n is the power of the square matrix
-int giveGreatestEl(vector_int_2D&& poweredSqVect_input, vector_int& arbitrary_vector)
+//! A function that returns the vector x^(n) = A^n * x , where A is the square matrix,
+//! n is the power of the square matrix and x is the arbitrary vector.
+std::unique_ptr<vector_int> x_n(vector_int_2D&& poweredSqVect_input,
+                                vector_int& arbitrary_vector)
 {
-    vector_int x_n(N);
+    std::unique_ptr<vector_int> x_n = std::make_unique<vector_int>(N);
 
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            x_n[i] += poweredSqVect_input[i][j] * arbitrary_vector[j];
+            (*x_n)[i] += poweredSqVect_input[i][j] * arbitrary_vector[j];
         }
     }
+    return x_n;
+}
 
-    /*// calculate the magnitude of x_n
-    int x_n_magn;
-
-    for (auto& m : x_n)
-        x_n_magn += pow(m,2);
-
-    x_n_magn = sqrt(x_n_magn)
-    */
-
-    // find the greatest element
-    int greatest_el = *x_n.begin();      // initialization | dereference the iterator
-    for (vector_int::iterator it = x_n.begin(); it != x_n.end(); ++it) {
-        if (*it > greatest_el) {
-            greatest_el = *it;
-        }
-    }
-    
-    return greatest_el;
+//! A function that returns the greatest element of vector x^(n) = A^n * x , where A is
+//! the square matrix,n is the power of the square matrix and x is the arbitrary vector.
+double GreatestElement(std::unique_ptr<vector_int> x_n)
+{
+    return *std::max_element((*x_n).begin(), (*x_n).end());
 }
 
 int main()
@@ -101,8 +90,8 @@ int main()
     std::string title = "Power Method";
     std::cout << title << std::endl << std::string(title.length(), '-') << std::endl;
 
-    // A random 6x6 matrix. You can work with square matrices of other dimension,
-    // only by editing 'const int N' [line 31]
+    //! A random 6x6 matrix. You can work with square matrices of other dimension,
+    //! only by editing 'const int N' [line 31]
     vector_int_2D mySqVect {{6, 0, 2, 3, 2, 4},
                             {4, 1, 8, 0, 3, 5},
                             {7, 3, 3, 2, 9, 0},
@@ -110,43 +99,23 @@ int main()
                             {1, 6, 3, 4, 5, 6},
                             {2, 8, 4, 3, 9, 0}};
 
-    // arbitrary selection of N-element vector x = (1, 1, 1, 1, 1, 1)^T
+    //! arbitrary selection of N-element vector x = (1, 1, 1, 1, 1, 1)^T (convenience)
     vector_int x(N,1);
 
     int iter;
 
-    // greatest eigenvalue
+    //! greatest eigenvalue
     double l;
     double l_prev;
 
-    int precision[] = {3, 12, 6};
+    int precision[] = {2, 3, 5};
 
-    /*// print-test block
-    // You need to change to "const int N = 3" and comment the main regression block
-    std::cout << std::endl << "Print-test block" << std::endl;
-
-    vector_int_2D mySqVect_test {{2, 3, 2},
-                                 {4, 3, 5},
-                                 {3, 2, 9}};
-
-    vector_int_2D poweredSqVect_test = sqVectPow(mySqVect_test, 10);
-
-    for (auto& i : poweredSqVect_test) {
-        for (auto& j : i) {
-            std::cout << j << " ";
-        }
-        std::cout << std::endl;pr
-    }
-    double test_eigenvalue = round( pow(10, 3)
-        * ((double)giveGreatestEl(sqVectPow(mySqVect_test, 10), x)
-        / giveGreatestEl(sqVectPow(mySqVect_test, 9), x)) )
-        / pow(10, 3);
-
-    std::cout << std::endl << test_eigenvalue;
-    */
-
-    // main regression block
-    for (size_t pr = 0; pr < 1; ++pr) {       // loop through precision values
+    /* Main regression block
+     *
+     * Repeat the evaluation of the greatest eigenvalue, using different precision
+     * values.
+     */
+    for (size_t pr = 0; pr < 3; ++pr) {
 
         iter = 0;
         l_prev = 0;
@@ -154,21 +123,26 @@ int main()
         while (l != l_prev) {
 
             ++iter;
-
             l_prev = l;
 
-            l = round( pow(10, precision[pr])
-                * ( (double)giveGreatestEl(sqVectPow(mySqVect, iter+1), x)
-                / giveGreatestEl(sqVectPow(mySqVect, iter), x) ))
-                / pow(10, precision[pr]);
+            l = GreatestElement(x_n(sqVectPow(mySqVect, iter+1), x))
+                / GreatestElement(x_n(sqVectPow(mySqVect, iter), x));
+            l = round(pow(10, precision[pr]) * l) / pow(10, precision[pr]);
 
             std::cout << std::fixed << std::setprecision(0) << "Iter #" << iter
-                << ": " << std::setprecision(precision[pr]) << l << std::endl;
+                << "   " << std::setprecision(precision[pr]) << "l = " << l
+                << std::endl;
         }
 
-        std::cout << "-------------------\nGreatest Eigenvalue with "
-            << std::setprecision(0) << precision[pr] << " significant decimal digits: "
+        std::cout << "----------------------\nGreatest Eigenvalue with "
+            << std::setprecision(0) << precision[pr] << " decimal digits: "
             << std::setprecision(precision[pr]) << l << "  |  " << "Iterations: "
-            << iter-1 << std::endl << std::endl;
+            << iter << std::endl << "Corresponding Eigenvector (normalized): (";
+
+        for (size_t i = 0; i< (*x_n(sqVectPow(mySqVect, iter+1), x)).size(); ++i) {
+            std::cout << (*x_n(sqVectPow(mySqVect, iter+1), x))[i]
+                / GreatestElement(x_n(sqVectPow(mySqVect, iter+1), x)) << ", ";
+        }
+        std::cout << "\b\b)" << "\n\n\n";
     }
 }
