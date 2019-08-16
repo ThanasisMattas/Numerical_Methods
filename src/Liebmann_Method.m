@@ -74,7 +74,7 @@ u = zeros(N, M);
 h = Lx / (N-1);
 
 % tolerance value
-TOL = 10^-5;
+TOL = 10^-4;
 
 % max iterations
 ITER_MAX = 100000;
@@ -106,7 +106,7 @@ tolerance_vector = zeros(ITER_MAX, 1);
 % regression block for Liebmann method
 iter = 0;
 while ++iter
-  % u_new is (N-2) * (M-2)
+  % u_new is (N-2)x(M-2)
   u_new = 1/4 * (u(3:M, 2:N-1) + u(2:M-1, 3:N) ...
     + u(1:M-2, 2:N-1) + u(2:M-1, 1:N-2) - h^2 * f_xy(2:M-1, 2:N-1));
 
@@ -139,11 +139,11 @@ tolerance_vector_sor = zeros(ITER_MAX, 1);
 alpha = (cos(pi/(N-1)) + cos(pi/(M-1)))^2;
 discriminant = 256 - 4 * alpha * 16;
 omega = ...
-  min([(16 + sqrt(discriminant)) / (2*alpha),
-  (16 - sqrt(discriminant)) / (2*alpha)]);
+  min([ (16 + sqrt(discriminant)) / (2*alpha),
+        (16 - sqrt(discriminant)) / (2*alpha) ]);
 
-% In this example we will use underrelaxation, because overrelaxtion diverges.
-% So, this is a relaxed/damped Leibmann method with relaxation factor omega:
+% The relaxation factor calculated above does not result to convergence, so a
+% smaller one is arbitary chosed:
 omega =0.2;
 
 % initialization of the grid to zero
@@ -181,7 +181,7 @@ ylabel tolerance
 grid on
 hold on;
 plot(nonzeros(tolerance_vector_sor));
-legend 'Liebmann method' 'Relaxed Liebmann method, ω = 0.2'
+legend 'Liebmann method' 'SOR, ω = 0.2'
 
 % 2. f(x,y)
 figure(2);
@@ -197,7 +197,7 @@ zlabel 'f(x,y)'
 % 3. solution
 subplot(1, 2, 2);
 surf(X, Y, u_Liebmann)
-title (['Liebmann method on', ...
+title (['SOR on', ...
   ' \color{blue}\partial^2u(x,y)/\partialx^2', ...
   ' + \partial^2u(x,y)/\partialy^2', ...
   ' = - 10 * (x^2 + y ^2 + 5)'])

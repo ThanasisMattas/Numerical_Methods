@@ -13,7 +13,7 @@ Here you can find some implementations of various numerical methods, in C++ and 
 * Runge-Kutta method - 2nd & 4th order (ODE evaluation)
 * Runge-Kutta method - Stability study
 * Shooting method with Runge-Kutta method (Boundary conditions problems)
-* Liebmann method (2nd order Elliptic PDEs -- Poisson's function) + Relaxed Liebmann scheme
+* Liebmann method (2nd order Elliptic PDEs -- Poisson's function) + SOR scheme
 * Lax-Wendroff method (2nd order Hyperbolic PDEs -- Wave function)
 
 
