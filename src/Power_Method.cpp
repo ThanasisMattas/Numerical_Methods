@@ -27,6 +27,7 @@
 #include <cmath>
 #include <iomanip>
 #include <algorithm>
+#include <memory>
 
 //! N: dimension of the square matrix
 const int N = 6;

@@ -33,8 +33,10 @@
  Liebmann :         u_i,j(new) = 1/4 * [{1 0 1} u_i,j(old) - h^2 * f_i,j)]
                                            1
 
+
+ Successive Over-Relaxation (SOR) : 
                                                          1
- Relaxed Liebmann : u_i,j(new) = u_i,j(old) + ω/4 * [{1 -4 1} u_i,j(old) - h^2 * f_i,j)]
+                    u_i,j(new) = u_i,j(old) + ω/4 * [{1 -4 1} u_i,j(old) - h^2 * f_i,j)]
                                                          1      
                     ω: relaxation factor
  
@@ -57,10 +59,10 @@ fprintf('%s\n', program_title);
 fprintf('%s\n',repmat('-', 1, length(program_title)));
 
 % Number of x coordinate points
-N = 400;
+N = 300;
 
 % Number of y coordinate points
-M = 400;
+M = 300;
 
 % grid boundaries 
 Lx = 1;
@@ -74,7 +76,7 @@ u = zeros(N, M);
 h = Lx / (N-1);
 
 % tolerance value
-TOL = 10^-4;
+TOL = 5 * 10^-5;
 
 % max iterations
 ITER_MAX = 100000;
@@ -102,7 +104,7 @@ f_xy = -10 * (x.^2 + y.^2 + 5);
 
 % This holds the stepwise tolerance value
 tolerance_vector = zeros(ITER_MAX, 1);
-
+%{
 % regression block for Liebmann method
 iter = 0;
 while ++iter
@@ -122,7 +124,7 @@ end
 
 % this will be plotted
 u_Liebmann = u;
-
+%}
 
 % ------------------------------------------------------------------------------
 % Successive Over Relaxation method (SOR).
@@ -143,7 +145,7 @@ omega = ...
         (16 - sqrt(discriminant)) / (2*alpha) ]);
 
 % The relaxation factor calculated above does not result to convergence, so a
-% smaller one is arbitary chosed:
+% smaller one is arbitary chosed (SUR):
 omega =0.2;
 
 % initialization of the grid to zero
